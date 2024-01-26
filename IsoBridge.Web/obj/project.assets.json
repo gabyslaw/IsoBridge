@@ -1,11 +1,87 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "IsoBridge.Adapters/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "IsoBridge.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IsoBridge.Adapters.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsoBridge.Adapters.dll": {}
+        }
+      },
+      "IsoBridge.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/IsoBridge.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsoBridge.Core.dll": {}
+        }
+      },
+      "IsoBridge.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "IsoBridge.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IsoBridge.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsoBridge.Infrastructure.dll": {}
+        }
+      },
+      "IsoBridge.ISO8583/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "IsoBridge.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IsoBridge.ISO8583.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsoBridge.ISO8583.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "IsoBridge.Adapters/1.0.0": {
+      "type": "project",
+      "path": "../IsoBridge.Adapters/IsoBridge.Adapters.csproj",
+      "msbuildProject": "../IsoBridge.Adapters/IsoBridge.Adapters.csproj"
+    },
+    "IsoBridge.Core/1.0.0": {
+      "type": "project",
+      "path": "../IsoBridge.Core/IsoBridge.Core.csproj",
+      "msbuildProject": "../IsoBridge.Core/IsoBridge.Core.csproj"
+    },
+    "IsoBridge.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../IsoBridge.Infrastructure/IsoBridge.Infrastructure.csproj",
+      "msbuildProject": "../IsoBridge.Infrastructure/IsoBridge.Infrastructure.csproj"
+    },
+    "IsoBridge.ISO8583/1.0.0": {
+      "type": "project",
+      "path": "../IsoBridge.ISO8583/IsoBridge.ISO8583.csproj",
+      "msbuildProject": "../IsoBridge.ISO8583/IsoBridge.ISO8583.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "IsoBridge.Adapters >= 1.0.0",
+      "IsoBridge.Core >= 1.0.0",
+      "IsoBridge.ISO8583 >= 1.0.0",
+      "IsoBridge.Infrastructure >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\": {},
@@ -38,7 +114,20 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Projects\\IsoBridge\\IsoBridge.Adapters\\IsoBridge.Adapters.csproj": {
+              "projectPath": "C:\\Projects\\IsoBridge\\IsoBridge.Adapters\\IsoBridge.Adapters.csproj"
+            },
+            "C:\\Projects\\IsoBridge\\IsoBridge.Core\\IsoBridge.Core.csproj": {
+              "projectPath": "C:\\Projects\\IsoBridge\\IsoBridge.Core\\IsoBridge.Core.csproj"
+            },
+            "C:\\Projects\\IsoBridge\\IsoBridge.Infrastructure\\IsoBridge.Infrastructure.csproj": {
+              "projectPath": "C:\\Projects\\IsoBridge\\IsoBridge.Infrastructure\\IsoBridge.Infrastructure.csproj"
+            },
+            "C:\\Projects\\IsoBridge\\IsoBridge.ISO8583\\IsoBridge.ISO8583.csproj": {
+              "projectPath": "C:\\Projects\\IsoBridge\\IsoBridge.ISO8583\\IsoBridge.ISO8583.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

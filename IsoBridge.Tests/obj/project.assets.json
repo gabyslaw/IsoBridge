@@ -425,6 +425,16 @@
         "build": {
           "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
         }
+      },
+      "IsoBridge.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/IsoBridge.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IsoBridge.Core.dll": {}
+        }
       }
     }
   },
@@ -1256,10 +1266,16 @@
         "xunit.runner.visualstudio.2.4.3.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "IsoBridge.Core/1.0.0": {
+      "type": "project",
+      "path": "../IsoBridge.Core/IsoBridge.Core.csproj",
+      "msbuildProject": "../IsoBridge.Core/IsoBridge.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "IsoBridge.Core >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.1.0",
       "coverlet.collector >= 3.1.2",
       "xunit >= 2.4.1",
@@ -1297,7 +1313,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Projects\\IsoBridge\\IsoBridge.Core\\IsoBridge.Core.csproj": {
+              "projectPath": "C:\\Projects\\IsoBridge\\IsoBridge.Core\\IsoBridge.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
