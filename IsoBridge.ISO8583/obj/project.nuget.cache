@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "fxUmMj4n5vQ=",
+  "dgSpecHash": "nODxHhuXvs0=",
   "success": true,
   "projectFilePath": "C:\\Projects\\IsoBridge\\IsoBridge.ISO8583\\IsoBridge.ISO8583.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.1\\microsoft.extensions.configuration.abstractions.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.configuration.binder\\6.0.1\\microsoft.extensions.configuration.binder.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.options\\6.0.1\\microsoft.extensions.options.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\6.0.1\\microsoft.extensions.options.configurationextensions.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.1\\microsoft.extensions.primitives.6.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
