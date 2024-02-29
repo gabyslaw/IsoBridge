@@ -7,6 +7,14 @@
     <ProjectReference Include="..\IsoBridge.Infrastructure\IsoBridge.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.*" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.*" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.*" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.*" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
