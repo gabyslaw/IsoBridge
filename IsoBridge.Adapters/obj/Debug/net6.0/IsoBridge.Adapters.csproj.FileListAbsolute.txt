@@ -1,0 +1,16 @@
+C:\Projects\IsoBridge\IsoBridge.Adapters\bin\Debug\net6.0\IsoBridge.Adapters.deps.json
+C:\Projects\IsoBridge\IsoBridge.Adapters\bin\Debug\net6.0\IsoBridge.Adapters.dll
+C:\Projects\IsoBridge\IsoBridge.Adapters\bin\Debug\net6.0\IsoBridge.Adapters.pdb
+C:\Projects\IsoBridge\IsoBridge.Adapters\bin\Debug\net6.0\IsoBridge.Core.dll
+C:\Projects\IsoBridge\IsoBridge.Adapters\bin\Debug\net6.0\IsoBridge.Core.pdb
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.csproj.AssemblyReference.cache
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.AssemblyInfoInputs.cache
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.AssemblyInfo.cs
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.csproj.CoreCompileInputs.cache
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.sourcelink.json
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridg.256B4C3E.Up2Date
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.dll
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\refint\IsoBridge.Adapters.dll
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\IsoBridge.Adapters.pdb
+C:\Projects\IsoBridge\IsoBridge.Adapters\obj\Debug\net6.0\ref\IsoBridge.Adapters.dll

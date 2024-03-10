@@ -1,0 +1,25 @@
+2025-11-08 22:06:47.516 +00:00 [INF] User profile is available. Using 'C:\Users\ayo.olowoniwa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-08 22:06:47.653 +00:00 [INF] Creating key {d8740ca3-70d3-4e42-9377-abb557ce4fa3} with creation date 2025-11-08 22:06:47Z, activation date 2025-11-08 22:06:47Z, and expiration date 2026-02-06 22:06:47Z.
+2025-11-08 22:06:47.678 +00:00 [INF] Writing data to file 'C:\Users\ayo.olowoniwa\AppData\Local\ASP.NET\DataProtection-Keys\key-d8740ca3-70d3-4e42-9377-abb557ce4fa3.xml'.
+2025-11-08 22:07:45.262 +00:00 [INF] User profile is available. Using 'C:\Users\ayo.olowoniwa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-08 22:07:45.608 +00:00 [INF] Now listening on: https://localhost:7013
+2025-11-08 22:07:45.612 +00:00 [INF] Now listening on: http://localhost:5226
+2025-11-08 22:07:45.623 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-08 22:07:45.626 +00:00 [INF] Hosting environment: Development
+2025-11-08 22:07:45.629 +00:00 [INF] Content root path: C:\Projects\IsoBridge\IsoBridge.Web\
+2025-11-08 22:07:58.283 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5226/ - -
+2025-11-08 22:07:58.303 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5226/ - - - 307 0 - 23.3192ms
+2025-11-08 22:07:58.416 +00:00 [INF] Request starting HTTP/2 GET https://localhost:7013/ - -
+2025-11-08 22:07:58.480 +00:00 [INF] HTTP GET / responded 404 in 60.5243 ms
+2025-11-08 22:07:58.497 +00:00 [INF] Request finished HTTP/2 GET https://localhost:7013/ - - - 404 0 - 81.0693ms
+2025-11-08 22:08:15.128 +00:00 [INF] Request starting HTTP/2 GET https://localhost:7013/health - -
+2025-11-08 22:08:15.134 +00:00 [INF] Executing endpoint 'HTTP: GET /health'
+2025-11-08 22:08:15.146 +00:00 [INF] Writing value of type '<>f__AnonymousType0`2[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]' with status code '200'.
+2025-11-08 22:08:15.160 +00:00 [INF] Executed endpoint 'HTTP: GET /health'
+2025-11-08 22:08:15.161 +00:00 [INF] HTTP GET /health responded 200 in 32.0601 ms
+2025-11-08 22:08:15.164 +00:00 [INF] Request finished HTTP/2 GET https://localhost:7013/health - - - 200 - application/json;+charset=utf-8 36.2874ms
+2025-11-08 22:08:15.720 +00:00 [INF] Request starting HTTP/2 GET https://localhost:7013/favicon.ico - -
+2025-11-08 22:08:15.740 +00:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Projects\IsoBridge\IsoBridge.Web\wwwroot\favicon.ico'
+2025-11-08 22:08:15.744 +00:00 [INF] HTTP GET /favicon.ico responded 200 in 22.4865 ms
+2025-11-08 22:08:15.747 +00:00 [INF] Request finished HTTP/2 GET https://localhost:7013/favicon.ico - - - 200 5430 image/x-icon 26.8062ms
+2025-11-08 22:09:04.594 +00:00 [INF] Application is shutting down...

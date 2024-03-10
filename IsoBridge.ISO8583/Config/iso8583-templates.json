@@ -1,0 +1,51 @@
+[
+    {
+        "Mti": "0200",
+        "Fields": [
+            {
+                "Id": 2,
+                "Name": "PAN",
+                "Type": "n",
+                "Length": 19,
+                "Variable": true,
+                "VarLengthDigits": 2
+            },
+            {
+                "Id": 3,
+                "Name": "ProcessingCode",
+                "Type": "n",
+                "Length": 6
+            },
+            {
+                "Id": 4,
+                "Name": "Amount",
+                "Type": "n",
+                "Length": 12
+            },
+            {
+                "Id": 7,
+                "Name": "TransmissionDateTime",
+                "Type": "n",
+                "Length": 10
+            },
+            {
+                "Id": 11,
+                "Name": "STAN",
+                "Type": "n",
+                "Length": 6
+            },
+            {
+                "Id": 41,
+                "Name": "TerminalId",
+                "Type": "ans",
+                "Length": 8
+            },
+            {
+                "Id": 49,
+                "Name": "Currency",
+                "Type": "a",
+                "Length": 3
+            }
+        ]
+    }
+]

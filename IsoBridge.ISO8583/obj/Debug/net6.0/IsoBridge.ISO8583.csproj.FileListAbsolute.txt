@@ -1,0 +1,16 @@
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.deps.json
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.dll
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.pdb
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.Core.dll
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.Core.pdb
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.csproj.AssemblyReference.cache
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.AssemblyInfoInputs.cache
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.AssemblyInfo.cs
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.csproj.CoreCompileInputs.cache
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.sourcelink.json
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridg.5C2438C3.Up2Date
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.dll
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\refint\IsoBridge.ISO8583.dll
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\IsoBridge.ISO8583.pdb
+C:\Projects\IsoBridge\IsoBridge.ISO8583\obj\Debug\net6.0\ref\IsoBridge.ISO8583.dll

@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "IsoBridge.Adapters/1.0.0": {
+        "dependencies": {
+          "IsoBridge.Core": "1.0.0"
+        },
+        "runtime": {
+          "IsoBridge.Adapters.dll": {}
+        }
+      },
+      "IsoBridge.Core/1.0.0": {
+        "runtime": {
+          "IsoBridge.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IsoBridge.Adapters/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IsoBridge.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

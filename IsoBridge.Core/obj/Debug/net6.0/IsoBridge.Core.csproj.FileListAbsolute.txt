@@ -1,0 +1,12 @@
+C:\Projects\IsoBridge\IsoBridge.Core\bin\Debug\net6.0\IsoBridge.Core.deps.json
+C:\Projects\IsoBridge\IsoBridge.Core\bin\Debug\net6.0\IsoBridge.Core.dll
+C:\Projects\IsoBridge\IsoBridge.Core\bin\Debug\net6.0\IsoBridge.Core.pdb
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.AssemblyInfoInputs.cache
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.AssemblyInfo.cs
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.csproj.CoreCompileInputs.cache
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.sourcelink.json
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.dll
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\refint\IsoBridge.Core.dll
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\IsoBridge.Core.pdb
+C:\Projects\IsoBridge\IsoBridge.Core\obj\Debug\net6.0\ref\IsoBridge.Core.dll
