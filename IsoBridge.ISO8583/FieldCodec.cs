@@ -16,7 +16,9 @@ namespace IsoBridge.ISO8583
     {
         public byte[] Encode(string value, int length, bool variable, int varDigits, bool bcd)
         {
-            var data = variable ? $"{value.Length:D{varDigits}}{value}" : value.PadLeft(length, '0');
+            var data = variable
+                ? string.Format("{0:D" + varDigits + "}{1}", value.Length, value)
+                : value.PadLeft(length, '0');
             return Encoding.ASCII.GetBytes(data);
         }
 
