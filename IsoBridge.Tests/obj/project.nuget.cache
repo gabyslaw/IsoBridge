@@ -1,11 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "HWxoeE5dEUw=",
+  "dgSpecHash": "W00escgn0rg=",
   "success": true,
   "projectFilePath": "C:\\Projects\\IsoBridge\\IsoBridge.Tests\\IsoBridge.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.1\\microsoft.extensions.configuration.abstractions.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.configuration.binder\\6.0.1\\microsoft.extensions.configuration.binder.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.options\\6.0.1\\microsoft.extensions.options.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\6.0.1\\microsoft.extensions.options.configurationextensions.6.0.1.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.1\\microsoft.extensions.primitives.6.0.1.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.net.test.sdk\\17.1.0\\microsoft.net.test.sdk.17.1.0.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.1.0\\microsoft.testplatform.objectmodel.17.1.0.nupkg.sha512",

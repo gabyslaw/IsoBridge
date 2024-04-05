@@ -1,3 +1,4 @@
+C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\Config\iso8583-templates.json
 C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.deps.json
 C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.dll
 C:\Projects\IsoBridge\IsoBridge.ISO8583\bin\Debug\net6.0\IsoBridge.ISO8583.pdb

@@ -3,6 +3,7 @@ C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\appsettings.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.staticwebassets.runtime.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.staticwebassets.endpoints.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.exe
+C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\Config\iso8583-templates.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.deps.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.runtimeconfig.json
 C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\IsoBridge.Web.dll

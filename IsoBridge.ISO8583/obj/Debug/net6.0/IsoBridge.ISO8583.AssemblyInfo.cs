@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IsoBridge.ISO8583")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb2b9cd54c59c57faccb50022167898d86bceb7f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e227a81f710967bec3222047f7f6a18690aced8")]
 [assembly: System.Reflection.AssemblyProductAttribute("IsoBridge.ISO8583")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IsoBridge.ISO8583")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
