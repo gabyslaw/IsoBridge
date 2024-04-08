@@ -23,3 +23,37 @@
 2025-11-08 22:08:15.744 +00:00 [INF] HTTP GET /favicon.ico responded 200 in 22.4865 ms
 2025-11-08 22:08:15.747 +00:00 [INF] Request finished HTTP/2 GET https://localhost:7013/favicon.ico - - - 200 5430 image/x-icon 26.8062ms
 2025-11-08 22:09:04.594 +00:00 [INF] Application is shutting down...
+2025-11-08 22:54:18.618 +00:00 [INF] Entity Framework Core 6.0.36 initialized 'AuditDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite:6.0.36' with options: None
+2025-11-08 22:54:26.604 +00:00 [INF] Entity Framework Core 6.0.36 initialized 'AuditDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite:6.0.36' with options: None
+2025-11-08 22:54:26.775 +00:00 [INF] Executed DbCommand (15ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+PRAGMA journal_mode = 'wal';
+2025-11-08 22:54:26.904 +00:00 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "__EFMigrationsHistory" (
+    "MigrationId" TEXT NOT NULL CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY,
+    "ProductVersion" TEXT NOT NULL
+);
+2025-11-08 22:54:26.920 +00:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "name" = '__EFMigrationsHistory' AND "type" = 'table';
+2025-11-08 22:54:26.926 +00:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-11-08 22:54:26.944 +00:00 [INF] Applying migration '20251108225418_InitAudit'.
+2025-11-08 22:54:26.966 +00:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "AuditEntries" (
+    "Id" TEXT NOT NULL CONSTRAINT "PK_AuditEntries" PRIMARY KEY,
+    "TimestampUtc" TEXT NOT NULL,
+    "Actor" TEXT NOT NULL,
+    "Service" TEXT NOT NULL,
+    "RequestDigest" TEXT NOT NULL,
+    "ResponseDigest" TEXT NOT NULL,
+    "PrevHash" TEXT NOT NULL,
+    "Hash" TEXT NOT NULL,
+    "HmacSignature" TEXT NOT NULL,
+    "MetaJson" TEXT NOT NULL
+);
+2025-11-08 22:54:26.969 +00:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_AuditEntries_TimestampUtc" ON "AuditEntries" ("TimestampUtc");
+2025-11-08 22:54:26.970 +00:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20251108225418_InitAudit', '6.0.36');

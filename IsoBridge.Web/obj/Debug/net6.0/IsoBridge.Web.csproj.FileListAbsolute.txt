@@ -97,3 +97,5 @@ C:\Projects\IsoBridge\IsoBridge.Web\obj\Debug\net6.0\refint\IsoBridge.Web.dll
 C:\Projects\IsoBridge\IsoBridge.Web\obj\Debug\net6.0\IsoBridge.Web.pdb
 C:\Projects\IsoBridge\IsoBridge.Web\obj\Debug\net6.0\IsoBridge.Web.genruntimeconfig.cache
 C:\Projects\IsoBridge\IsoBridge.Web\obj\Debug\net6.0\ref\IsoBridge.Web.dll
+C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\Humanizer.dll
+C:\Projects\IsoBridge\IsoBridge.Web\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll

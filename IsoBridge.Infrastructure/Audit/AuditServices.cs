@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using IsoBridge.Core.Audit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -15,20 +16,26 @@ namespace IsoBridge.Infrastructure.Audit
 
     public sealed class Sha256AuditHasher : IAuditHasher
     {
-        private readonly AuditSecurityOptions _opt;
-        public Sha256AuditHasher(IOptions<AuditSecurityOptions> opt) => _opt = opt.Value;
+        private readonly string _key;
 
-        public string ComputeHash(string prevHash, DateTime tsUtc, string req, string res, string metaJson)
+        public Sha256AuditHasher(IOptions<AuditSecurityOptions> options)
         {
-            var payload = $"{prevHash}|{tsUtc:O}|{req}|{res}|{metaJson}";
-            using var sha = SHA256.Create();
-            return Convert.ToHexString(sha.ComputeHash(Encoding.UTF8.GetBytes(payload)));
+            _key = options.Value.HmacKey ?? string.Empty;
         }
 
-        public string ComputeHmac(string hash)
+        public string ComputeHash(AuditEntry entry, string prevHash)
         {
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_opt.HmacKey));
-            return Convert.ToHexString(hmac.ComputeHash(Encoding.UTF8.GetBytes(hash)));
+            var payload = $"{prevHash}|{entry.TimestampUtc:o}|{entry.RequestDigest}|{entry.ResponseDigest}|{entry.MetaJson}";
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(payload));
+            return Convert.ToHexString(bytes);
+        }
+
+        public string ComputeHmac(string data)
+        {
+            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(_key));
+            var bytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+            return Convert.ToHexString(bytes);
         }
     }
 
@@ -38,7 +45,10 @@ namespace IsoBridge.Infrastructure.Audit
         {
             services.Configure<AuditSecurityOptions>(config.GetSection("AuditSecurity"));
             services.AddSingleton<IAuditHasher, Sha256AuditHasher>();
-            // I will add EF Core context later
+
+            services.AddDbContext<AuditDbContext>(options =>
+                options.UseSqlite("Data Source=audit.db"));
+
             return services;
         }
     }

@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "6V7JnxdBizo=",
+  "dgSpecHash": "k90oGjsdJrA=",
   "success": true,
   "projectFilePath": "C:\\Projects\\IsoBridge\\IsoBridge.Web\\IsoBridge.Web.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning\\5.1.0\\microsoft.aspnetcore.mvc.versioning.5.1.0.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.36\\microsoft.data.sqlite.core.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.36\\microsoft.entityframeworkcore.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.36\\microsoft.entityframeworkcore.abstractions.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.36\\microsoft.entityframeworkcore.analyzers.6.0.36.nupkg.sha512",
+    "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.36\\microsoft.entityframeworkcore.design.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.36\\microsoft.entityframeworkcore.relational.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite\\6.0.36\\microsoft.entityframeworkcore.sqlite.6.0.36.nupkg.sha512",
     "C:\\Users\\ayo.olowoniwa\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite.core\\6.0.36\\microsoft.entityframeworkcore.sqlite.core.6.0.36.nupkg.sha512",
