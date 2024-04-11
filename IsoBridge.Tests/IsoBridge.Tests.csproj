@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.*" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.*" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
@@ -26,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\IsoBridge.Core\IsoBridge.Core.csproj" />
     <ProjectReference Include="..\IsoBridge.ISO8583\IsoBridge.ISO8583.csproj" />
+    <ProjectReference Include="..\IsoBridge.Infrastructure\IsoBridge.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

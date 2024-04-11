@@ -12,8 +12,6 @@ using Microsoft.Extensions.Options;
 
 namespace IsoBridge.Infrastructure.Audit
 {
-    public sealed class AuditSecurityOptions { public string HmacKey { get; set; } = "dev-secret-change"; }
-
     public sealed class Sha256AuditHasher : IAuditHasher
     {
         private readonly string _key;
@@ -44,10 +42,12 @@ namespace IsoBridge.Infrastructure.Audit
         public static IServiceCollection AddIsoBridgeInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             services.Configure<AuditSecurityOptions>(config.GetSection("AuditSecurity"));
+
             services.AddSingleton<IAuditHasher, Sha256AuditHasher>();
+            services.AddScoped<IAuditAppendOnlyStore, AuditRepository>();
 
             services.AddDbContext<AuditDbContext>(options =>
-                options.UseSqlite("Data Source=audit.db"));
+                options.UseSqlite(config.GetConnectionString("AuditDb") ?? "Data Source=audit.db"));
 
             return services;
         }
