@@ -33,10 +33,11 @@ namespace IsoBridge.Infrastructure.Audit
 
             var prevHash = prev?.Hash ?? string.Empty;
 
+            // Setting timestamp before computing the hash due to bug discovered
+            entry.TimestampUtc = DateTime.UtcNow;
             entry.PrevHash = prevHash;
             entry.Hash = _hasher.ComputeHash(entry, prevHash);
             entry.HmacSignature = _hasher.ComputeHmac(entry.Hash);
-            entry.TimestampUtc = DateTime.UtcNow;
 
             await _db.AuditEntries.AddAsync(entry, ct);
             await _db.SaveChangesAsync(ct);
