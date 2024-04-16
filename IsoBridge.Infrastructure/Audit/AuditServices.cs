@@ -46,6 +46,9 @@ namespace IsoBridge.Infrastructure.Audit
             services.AddSingleton<IAuditHasher, Sha256AuditHasher>();
             services.AddScoped<IAuditAppendOnlyStore, AuditRepository>();
 
+            services.AddScoped<AuditVerifier>();
+
+
             services.AddDbContext<AuditDbContext>(options =>
                 options.UseSqlite(config.GetConnectionString("AuditDb") ?? "Data Source=audit.db"));
 
