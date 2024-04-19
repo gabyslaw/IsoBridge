@@ -29,27 +29,33 @@ namespace IsoBridge.Web.Controllers
                 .AsNoTracking()
                 .OrderByDescending(a => a.TimestampUtc)
                 .ToListAsync();
-            return View(entries);
+
+            return View("Index", entries);
         }
 
         [HttpPost("verify")]
         public async Task<IActionResult> Verify()
         {
             var result = await _verifier.VerifyAsync();
-            ViewData["VerifyResult"] = result;
+            TempData["VerifyMessage"] = result.Message;
+            TempData["VerifyIsValid"] = result.IsValid;
+
             var entries = await _db.AuditEntries
                 .AsNoTracking()
                 .OrderByDescending(a => a.TimestampUtc)
                 .ToListAsync();
+
             return View("Index", entries);
         }
 
         [HttpGet("export")]
         public async Task<IActionResult> ExportCsv()
         {
-            var entries = await _db.AuditEntries.AsNoTracking().ToListAsync();
+            var entries = await _db.AuditEntries.AsNoTracking().OrderBy(a => a.TimestampUtc).ToListAsync();
             var csv = string.Join(Environment.NewLine,
-                entries.Select(e => $"{e.TimestampUtc:o},{e.Actor},{e.Service},{e.Hash},{e.HmacSignature}"));
+                new[] { "TimestampUtc,Actor,Service,Hash,HmacSignature" }
+                .Concat(entries.Select(e =>
+                    $"{e.TimestampUtc:o},{e.Actor},{e.Service},{e.Hash},{e.HmacSignature}")));
 
             return File(System.Text.Encoding.UTF8.GetBytes(csv), "text/csv", "audit-log.csv");
         }

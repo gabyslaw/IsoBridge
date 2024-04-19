@@ -36,14 +36,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-app.UseRouting();
 
-app.MapControllers();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "admin-audit",
-    pattern: "admin/{controller=AdminAudit}/{action=Index}/{id?}");
+    pattern: "admin/audit/{action=Index}/{id?}",
+    defaults: new { controller = "AdminAudit" });
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseRouting();
+
+app.MapControllers();
 
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", utc = DateTime.UtcNow }));

@@ -1,0 +1,66 @@
+## .NET & Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.ncb
+*.cache
+*.pdb
+*.opendb
+*.ide
+*.dbmdl
+*.dbproj.schemaview
+
+## Logs & temp
+*.log
+*.tlog
+*.tmp
+*.temp
+*.bak
+*.swp
+*.DS_Store
+
+## Build & Publish
+publish/
+out/
+dist/
+artifacts/
+*.dll
+*.exe
+*.app
+*.zip
+*.tar
+*.gz
+
+## Config overrides
+appsettings.*.json
+!appsettings.Development.json
+
+## Node / Tailwind
+node_modules/
+npm-debug.log*
+package-lock.json
+.pnpm-debug.log
+*.tgz
+
+## JetBrains Rider / VSCode
+.idea/
+.vscode/
+*.code-workspace
+
+## EF Core migrations cache
+MigrationsSnapshot.cs
+
+## Docker
+docker-compose.override.yml
+*.iml
+
+## Coverage / Reports
+coverage/
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
