@@ -1,18 +1,15 @@
-html {
-  font-size: 14px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+  @apply bg-white dark:bg-slate-800 shadow-md rounded-2xl p-6 hover:shadow-xl transition;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.btn {
+  @apply bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-sky-700 transition;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+.table-header {
+  @apply text-sm text-gray-500 uppercase border-b border-gray-200 dark:text-gray-400;
 }

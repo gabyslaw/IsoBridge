@@ -22,6 +22,10 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 6.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Projects/IsoBridge/IsoBridge.Web/Views/AdminAudit/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BdWRpdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Projects/IsoBridge/IsoBridge.Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,52 @@
+@model IEnumerable<IsoBridge.Core.Audit.AuditEntry>
+@{
+    ViewData["Title"] = "Audit Ledger";
+    var result = ViewData["VerifyResult"] as IsoBridge.Infrastructure.Audit.AuditVerificationResult;
+}
+
+<link rel="stylesheet" href="~/css/output.css" />
+
+<div class="p-6 space-y-6">
+    <h1 class="text-3xl font-bold text-primary mb-4">Audit Ledger</h1>
+
+    <div class="flex space-x-3 mb-4">
+        <form asp-action="Verify" method="post">
+            <button class="btn">Verify Chain</button>
+        </form>
+        <a asp-action="ExportCsv" class="btn bg-green-600 hover:bg-green-700">Export CSV</a>
+    </div>
+
+    @if (result != null)
+    {
+        <div class="card border-l-4 @(result.IsValid ? "border-green-500" : "border-red-500")">
+            <p class="font-medium @(result.IsValid ? "text-green-500" : "text-red-500")">@result.Message</p>
+            <p class="text-sm text-gray-500">Entries checked: @result.EntriesChecked</p>
+        </div>
+    }
+
+    <div class="overflow-x-auto card mt-6">
+        <table class="min-w-full text-sm">
+            <thead class="table-header">
+                <tr>
+                    <th class="px-3 py-2">Timestamp</th>
+                    <th class="px-3 py-2">Actor</th>
+                    <th class="px-3 py-2">Service</th>
+                    <th class="px-3 py-2">Hash</th>
+                    <th class="px-3 py-2">HMAC</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var e in Model)
+                {
+                    <tr class="border-b hover:bg-slate-50 dark:hover:bg-slate-700">
+                        <td class="px-3 py-2">@e.TimestampUtc.ToLocalTime()</td>
+                        <td class="px-3 py-2">@e.Actor</td>
+                        <td class="px-3 py-2">@e.Service</td>
+                        <td class="px-3 py-2 font-mono text-xs truncate">@e.Hash</td>
+                        <td class="px-3 py-2 font-mono text-xs truncate">@e.HmacSignature</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

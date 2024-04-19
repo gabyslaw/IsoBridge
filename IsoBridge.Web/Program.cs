@@ -40,6 +40,11 @@ app.UseRouting();
 
 app.MapControllers();
 
+app.MapControllerRoute(
+    name: "admin-audit",
+    pattern: "admin/{controller=AdminAudit}/{action=Index}/{id?}");
+
+
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", utc = DateTime.UtcNow }));
 
