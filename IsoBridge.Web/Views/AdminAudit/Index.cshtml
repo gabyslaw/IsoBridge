@@ -1,52 +1,217 @@
 @model IEnumerable<IsoBridge.Core.Audit.AuditEntry>
 @{
-    ViewData["Title"] = "Audit Ledger";
-    var result = ViewData["VerifyResult"] as IsoBridge.Infrastructure.Audit.AuditVerificationResult;
+    Layout = null; 
+    var entries = Model?.OrderByDescending(x => x.TimestampUtc).ToList() ?? new List<IsoBridge.Core.Audit.AuditEntry>();
+    var total = entries.Count;
+    var lastActor = entries.FirstOrDefault()?.Actor ?? "-";
+    var lastService = entries.FirstOrDefault()?.Service ?? "-";
 }
 
-<link rel="stylesheet" href="~/css/output.css" />
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="p-6 space-y-6">
-    <h1 class="text-3xl font-bold text-primary mb-4">Audit Ledger</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IsoBridge – Audit Dashboard</title>
 
-    <div class="flex space-x-3 mb-4">
-        <form asp-action="Verify" method="post">
-            <button class="btn">Verify Chain</button>
-        </form>
-        <a asp-action="ExportCsv" class="btn bg-green-600 hover:bg-green-700">Export CSV</a>
-    </div>
-
-    @if (result != null)
-    {
-        <div class="card border-l-4 @(result.IsValid ? "border-green-500" : "border-red-500")">
-            <p class="font-medium @(result.IsValid ? "text-green-500" : "text-red-500")">@result.Message</p>
-            <p class="text-sm text-gray-500">Entries checked: @result.EntriesChecked</p>
-        </div>
-    }
-
-    <div class="overflow-x-auto card mt-6">
-        <table class="min-w-full text-sm">
-            <thead class="table-header">
-                <tr>
-                    <th class="px-3 py-2">Timestamp</th>
-                    <th class="px-3 py-2">Actor</th>
-                    <th class="px-3 py-2">Service</th>
-                    <th class="px-3 py-2">Hash</th>
-                    <th class="px-3 py-2">HMAC</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var e in Model)
-                {
-                    <tr class="border-b hover:bg-slate-50 dark:hover:bg-slate-700">
-                        <td class="px-3 py-2">@e.TimestampUtc.ToLocalTime()</td>
-                        <td class="px-3 py-2">@e.Actor</td>
-                        <td class="px-3 py-2">@e.Service</td>
-                        <td class="px-3 py-2 font-mono text-xs truncate">@e.Hash</td>
-                        <td class="px-3 py-2 font-mono text-xs truncate">@e.HmacSignature</td>
-                    </tr>
+   
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        processing: '#17a2b8',
+                        shipped: '#8b5cf6',
+                        delivered: '#3b82f6',
+                        paid: '#10b981',
+                        pending: '#f59e0b',
+                        unpaid: '#ef4444'
+                    }
                 }
-            </tbody>
-        </table>
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">I
+                    </div>
+                    <span class="text-lg font-semibold">IsoBridge</span>
+                </div>
+                <div class="flex gap-1">
+                    <a href="/" class="px-4 py-2 text-gray-500 hover:text-gray-900">Home</a>
+                    <a href="/swagger" class="px-4 py-2 text-gray-500 hover:text-gray-900">Swagger</a>
+                    <a href="/admin/audit" class="px-4 py-2 bg-black text-white rounded-lg">Audit</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <form action="/admin/audit/verify" method="post">
+                    <button class="px-4 py-2 bg-black text-white rounded-lg">Verify Chain</button>
+                </form>
+                <a href="/admin/audit/export" class="px-4 py-2 border rounded-lg">Export CSV</a>
+            </div>
+        </div>
+    </nav>
+
+<!-- Verification Status Pill -->
+@if (TempData["VerifyMessage"] != null)
+{
+    var verified = (TempData["VerifyIsValid"] as bool?) ?? false;
+    <div class="max-w-[1600px] mx-auto mt-6">
+        <div class="px-6 py-4 rounded-xl shadow-sm bg-white flex items-center justify-between border-l-4 @(verified ? "border-green-500" : "border-red-500")">
+            <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-full text-xs font-medium text-white @(verified ? "bg-green-500" : "bg-red-500")">
+                    @(verified ? "VERIFIED" : "FAILED")
+                </span>
+                <span class="text-gray-700 text-sm">@TempData["VerifyMessage"]</span>
+            </div>
+            <div class="text-xs text-gray-400">@(DateTime.UtcNow.ToString("HH:mm:ss")) UTC</div>
+        </div>
     </div>
-</div>
+}
+
+    <!-- Main Content -->
+    <main class="p-6 max-w-[1600px] mx-auto">
+        <!-- Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-medium mb-1">Total Entries</h3>
+                        <p class="text-xs text-gray-500">All audit records</p>
+                    </div>
+                    <button class="text-gray-400">⋯</button>
+                </div>
+                <div class="flex items-baseline gap-2 mb-4">
+                    <span class="text-3xl font-bold">@total</span>
+                    <span class="text-sm text-green-600">↑</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-gray-500">Chain grows over time</span>
+                    <span class="font-medium">Append-only</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-medium mb-1">Latest Actor</h3>
+                        <p class="text-xs text-gray-500">Last write origin</p>
+                    </div>
+                    <button class="text-gray-400">⋯</button>
+                </div>
+                <div class="flex items-baseline gap-2 mb-4">
+                    <span class="text-2xl font-bold">@lastActor</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-gray-500">From most recent entry</span>
+                    <span class="font-medium">@lastService</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-medium mb-1">Verification</h3>
+                        <p class="text-xs text-gray-500">HMAC + hash chain</p>
+                    </div>
+                    <button class="text-gray-400">⋯</button>
+                </div>
+                <div class="flex items-baseline gap-2 mb-4">
+                    <span class="text-3xl font-bold">Ready</span>
+                    <span class="text-sm text-green-600">✓</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-gray-500">Run “Verify Chain”</span>
+                    <span class="font-medium">Tamper-evident</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex justify-between mb-4">
+                    <div>
+                        <h3 class="text-sm font-medium mb-1">Last Updated (UTC)</h3>
+                        <p class="text-xs text-gray-500">Page render time</p>
+                    </div>
+                    <button class="text-gray-400">⋯</button>
+                </div>
+                <div class="flex items-baseline gap-2 mb-4">
+                    <span class="text-2xl font-bold">@DateTime.UtcNow.ToString("dd MMM yyyy HH:mm:ss")</span>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <span class="text-gray-500">Reload to refresh</span>
+                    <span class="font-medium">Live</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-lg font-semibold mb-1">Audit Entries</h2>
+                    <p class="text-sm text-gray-500">Latest append-only audit records</p>
+                </div>
+                <div class="flex gap-2">
+                    <a href="/admin/audit/export" class="px-4 py-2 border rounded-lg text-sm">Export</a>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b text-left text-xs text-gray-500">
+                            <th class="py-3 px-4">Timestamp (UTC)</th>
+                            <th class="py-3 px-4">Actor</th>
+                            <th class="py-3 px-4">Service</th>
+                            <th class="py-3 px-4">Hash</th>
+                            <th class="py-3 px-4">HMAC</th>
+                            <th class="py-3 px-4">PrevHash</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (entries.Count == 0)
+                        {
+                            <tr class="border-b">
+                                <td colspan="6" class="py-10 px-4 text-center text-gray-400">No audit entries yet.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var e in entries)
+                            {
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="py-4 px-4">@e.TimestampUtc.ToString("dd MMM yyyy HH:mm:ss")</td>
+                                    <td class="py-4 px-4">@e.Actor</td>
+                                    <td class="py-4 px-4">@e.Service</td>
+                                    <td class="py-4 px-4 font-mono text-xs truncate max-w-[220px]">@e.Hash</td>
+                                    <td class="py-4 px-4 font-mono text-xs truncate max-w-[220px]">@e.HmacSignature</td>
+                                    <td class="py-4 px-4 font-mono text-xs truncate max-w-[220px]">@e.PrevHash</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <div class="flex items-center justify-between mt-6">
+                <div class="text-sm text-gray-500">Showing <span class="font-medium text-black">@total</span></div>
+                <div class="flex gap-2">
+                    <button class="w-8 h-8 border rounded flex items-center justify-center">‹</button>
+                    <button class="w-8 h-8 bg-black text-white rounded">1</button>
+                    <button class="w-8 h-8 border rounded flex items-center justify-center">›</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
