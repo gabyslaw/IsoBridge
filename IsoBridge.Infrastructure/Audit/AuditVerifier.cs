@@ -61,7 +61,7 @@ namespace IsoBridge.Infrastructure.Audit
                 prevHash = entry.Hash;
             }
 
-            return (true, "Audit chain verified successfully.");
+            return (true, "Chain verified successfully.");
         }
     }
 
