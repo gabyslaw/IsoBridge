@@ -21,39 +21,47 @@ namespace IsoBridge.Infrastructure.Audit
             _logger = logger;
         }
 
-        public async Task<AuditVerificationResult> VerifyAsync(CancellationToken ct = default)
+        public async Task<(bool IsValid, string Message)> VerifyAsync()
         {
-            var entries = await _db.AuditEntries.AsNoTracking()
-                .OrderBy(a => a.TimestampUtc)
-                .ToListAsync(ct);
+            var entries = await _db.AuditEntries
+                .OrderBy(e => e.TimestampUtc)
+                .ToListAsync();
 
             if (entries.Count == 0)
-                return new AuditVerificationResult(true, 0, "No entries found.");
+                return (true, "No audit entries to verify.");
 
-            string prevHash = string.Empty;
-            int index = 0;
-
-            foreach (var e in entries)
+            string? prevHash = null;
+            foreach (var entry in entries)
             {
-                index++;
-                var expectedHash = _hasher.ComputeHash(e, prevHash);
-                if (!string.Equals(expectedHash, e.Hash, StringComparison.OrdinalIgnoreCase))
+                // recompute hash for this entry
+                var computedHash = _hasher.ComputeHash(entry, prevHash ?? string.Empty);
+
+                // verify linkage
+                if (prevHash != null && entry.PrevHash != prevHash)
                 {
-                    _logger?.LogWarning("Hash mismatch at index {Index}", index);
-                    return new AuditVerificationResult(false, index, $"Hash mismatch at {e.Id}");
+                    _logger?.LogWarning("Broken chain detected at {Id}", entry.Id);
+                    return (false, $"Chain tamper detected at entry {entry.Id}");
                 }
 
-                var expectedHmac = _hasher.ComputeHmac(e.Hash);
-                if (!string.Equals(expectedHmac, e.HmacSignature, StringComparison.OrdinalIgnoreCase))
+                // verify hash integrity
+                if (!string.Equals(entry.Hash, computedHash, StringComparison.Ordinal))
                 {
-                    _logger?.LogWarning("HMAC mismatch at index {Index}", index);
-                    return new AuditVerificationResult(false, index, $"HMAC mismatch at {e.Id}");
+                    _logger?.LogWarning("Hash mismatch at {Id}", entry.Id);
+                    return (false, $"Tamper detected at entry {entry.Id}");
                 }
 
-                prevHash = e.Hash;
+                // verify HMAC signature
+                var expectedHmac = _hasher.ComputeHmac(entry.Hash);
+                if (!string.Equals(entry.HmacSignature, expectedHmac, StringComparison.Ordinal))
+                {
+                    _logger?.LogWarning("HMAC mismatch at {Id}", entry.Id);
+                    return (false, $"HMAC mismatch at entry {entry.Id}");
+                }
+
+                prevHash = entry.Hash;
             }
 
-            return new AuditVerificationResult(true, entries.Count, "Chain verified successfully.");
+            return (true, "Audit chain verified successfully.");
         }
     }
 
