@@ -26,11 +26,11 @@ namespace IsoBridge.ISO8583
         {
             try
             {
-                // first 4 bytes are always MTI
+                // The first 4 bytes are always the MTI
                 var mti = Encoding.ASCII.GetString(isoBytes[..4]);
                 var template = _templates.GetTemplate(mti);
 
-                // parse bitmaps (8 or 16 bytes)
+                // Parse bitmaps (8 or 16 bytes depending on presence of secondary)
                 var bitmapFields = BitmapUtils.ParseBitmap(isoBytes.Slice(4));
                 var bitmapSize = bitmapFields.Max() > 64 ? 16 : 8;
 
@@ -38,17 +38,23 @@ namespace IsoBridge.ISO8583
                 var remaining = isoBytes[index..];
                 var fields = new Dictionary<int, string>();
 
-                // decode field values in order
-                foreach (var field in template.Fields.OrderBy(f => f.Id))
+                // Decode each field in ascending order
+                foreach (var kv in template.Fields.OrderBy(f => f.Key))
                 {
-                    if (!bitmapFields.Contains(field.Id))
+                    var fieldId = kv.Key;
+                    var fieldMeta = kv.Value;
+
+                    if (!bitmapFields.Contains(fieldId))
                         continue;
 
                     var (value, used) = _codec.Decode(
-                        remaining, field.Length, field.Variable,
-                        field.VarLengthDigits, _options.UseBcd);
+                        remaining,
+                        fieldMeta.Length,
+                        fieldMeta.Variable,
+                        fieldMeta.VarLengthDigits,
+                        _options.UseBcd);
 
-                    fields[field.Id] = value;
+                    fields[fieldId] = value;
                     remaining = remaining[used..];
                 }
 
@@ -64,17 +70,29 @@ namespace IsoBridge.ISO8583
         public byte[] Build(IsoMessage message)
         {
             var template = _templates.GetTemplate(message.Mti);
-            var active = message.Fields.Keys.OrderBy(f => f).ToList();
-            var bitmap = BitmapUtils.BuildBitmap(active);
+            var activeFields = message.Fields.Keys.OrderBy(f => f).ToList();
+            var bitmap = BitmapUtils.BuildBitmap(activeFields);
 
             var buffer = new List<byte>(256);
             buffer.AddRange(Encoding.ASCII.GetBytes(message.Mti));
             buffer.AddRange(bitmap);
 
-            foreach (var field in template.Fields.Where(f => active.Contains(f.Id)))
+            foreach (var kv in template.Fields.OrderBy(f => f.Key))
             {
-                var value = message.Fields[field.Id];
-                var bytes = _codec.Encode(value, field.Length, field.Variable, field.VarLengthDigits, _options.UseBcd);
+                var fieldId = kv.Key;
+                var fieldMeta = kv.Value;
+
+                if (!activeFields.Contains(fieldId))
+                    continue;
+
+                var value = message.Fields[fieldId];
+                var bytes = _codec.Encode(
+                    value,
+                    fieldMeta.Length,
+                    fieldMeta.Variable,
+                    fieldMeta.VarLengthDigits,
+                    _options.UseBcd);
+
                 buffer.AddRange(bytes);
             }
 

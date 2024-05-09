@@ -18,6 +18,6 @@ namespace IsoBridge.ISO8583.Templates
     public sealed class Iso8583Template
     {
         public string Mti { get; set; } = string.Empty;
-        public List<FieldTemplate> Fields { get; set; } = new();
+        public Dictionary<int, FieldTemplate> Fields { get; set; } = new();
     }
 }

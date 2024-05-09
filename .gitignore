@@ -51,6 +51,9 @@ package-lock.json
 .vscode/
 *.code-workspace
 
+# EF Migrations
+Migrations/
+
 ## EF Core migrations cache
 MigrationsSnapshot.cs
 
