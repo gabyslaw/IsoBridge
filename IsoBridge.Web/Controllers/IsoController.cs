@@ -40,7 +40,9 @@ namespace IsoBridge.Web.Controllers
                 return Ok(new IsoResponse
                 {
                     Mti = result.Message?.Mti ?? "????",
-                    Fields = result.Message?.Fields,
+                    Fields = result.Message?.Fields != null
+                                ? new Dictionary<int, string>(result.Message.Fields)
+                                : new Dictionary<int, string>(),
                     Message = result.Success ? "Parsed successfully" : "Parse failed"
                 });
             }
