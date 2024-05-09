@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using IsoBridge.ISO8583;
 using IsoBridge.Infrastructure.Audit;
+using IsoBridge.Web.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddIso8583(builder.Configuration);
 builder.Services.AddIsoBridgeInfrastructure(builder.Configuration);
+builder.Services.AddScoped<AuditLoggingService>();
+
 
 var app = builder.Build();
 

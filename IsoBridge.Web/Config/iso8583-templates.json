@@ -1,0 +1,55 @@
+{
+    "0200": {
+        "fields": {
+            "2": {
+                "length": 19,
+                "type": "n",
+                "description": "Primary Account Number"
+            },
+            "3": {
+                "length": 6,
+                "type": "n",
+                "description": "Processing Code"
+            },
+            "4": {
+                "length": 12,
+                "type": "n",
+                "description": "Transaction Amount"
+            },
+            "7": {
+                "length": 10,
+                "type": "n",
+                "description": "Transmission Date & Time"
+            },
+            "11": {
+                "length": 6,
+                "type": "n",
+                "description": "System Trace Audit Number"
+            },
+            "12": {
+                "length": 12,
+                "type": "n",
+                "description": "Local Transaction Time"
+            }
+        }
+    },
+    "0210": {
+        "fields": {
+            "3": {
+                "length": 6,
+                "type": "n",
+                "description": "Processing Code"
+            },
+            "4": {
+                "length": 12,
+                "type": "n",
+                "description": "Transaction Amount"
+            },
+            "39": {
+                "length": 2,
+                "type": "n",
+                "description": "Response Code"
+            }
+        }
+    }
+}

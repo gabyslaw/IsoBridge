@@ -24,5 +24,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+<ItemGroup>
+  <None Update="Config\iso8583-templates.json" CopyToOutputDirectory="PreserveNewest" />
+</ItemGroup>
 
 </Project>
