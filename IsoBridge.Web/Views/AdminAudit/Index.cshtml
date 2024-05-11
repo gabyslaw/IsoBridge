@@ -1,6 +1,6 @@
 @model IEnumerable<IsoBridge.Core.Audit.AuditEntry>
 @{
-    Layout = null; 
+    Layout = null;
     var entries = Model?.OrderByDescending(x => x.TimestampUtc).ToList() ?? new List<IsoBridge.Core.Audit.AuditEntry>();
     var total = entries.Count;
     var lastActor = entries.FirstOrDefault()?.Actor ?? "-";
@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IsoBridge – Audit Dashboard</title>
 
-   
+
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <script>
         tailwind.config = {
@@ -49,6 +49,7 @@
                     <a href="/" class="px-4 py-2 text-gray-500 hover:text-gray-900">Home</a>
                     <a href="/swagger" class="px-4 py-2 text-gray-500 hover:text-gray-900">Swagger</a>
                     <a href="/admin/audit" class="px-4 py-2 bg-black text-white rounded-lg">Audit</a>
+                    <a href="/admin/iso-preview" class="px-4 py-2 text-gray-500 hover:text-gray-900">ISO Preview</a>
                 </div>
             </div>
             <div class="flex items-center gap-4">
@@ -60,22 +61,24 @@
         </div>
     </nav>
 
-<!-- Verification Status Pill -->
-@if (TempData["VerifyMessage"] != null)
-{
-    var verified = (TempData["VerifyIsValid"] as bool?) ?? false;
-    <div class="max-w-[1600px] mx-auto mt-6">
-        <div class="px-6 py-4 rounded-xl shadow-sm bg-white flex items-center justify-between border-l-4 @(verified ? "border-green-500" : "border-red-500")">
-            <div class="flex items-center gap-3">
-                <span class="px-3 py-1 rounded-full text-xs font-medium text-white @(verified ? "bg-green-500" : "bg-red-500")">
-                    @(verified ? "VERIFIED" : "FAILED")
-                </span>
-                <span class="text-gray-700 text-sm">@TempData["VerifyMessage"]</span>
+    <!-- Verification Status Pill -->
+    @if (TempData["VerifyMessage"] != null)
+    {
+        var verified = (TempData["VerifyIsValid"] as bool?) ?? false;
+        <div class="max-w-[1600px] mx-auto mt-6">
+            <div
+                class="px-6 py-4 rounded-xl shadow-sm bg-white flex items-center justify-between border-l-4 @(verified ? "border-green-500" : "border-red-500")">
+                <div class="flex items-center gap-3">
+                    <span
+                        class="px-3 py-1 rounded-full text-xs font-medium text-white @(verified ? "bg-green-500" : "bg-red-500")">
+                        @(verified ? "VERIFIED" : "FAILED")
+                    </span>
+                    <span class="text-gray-700 text-sm">@TempData["VerifyMessage"]</span>
+                </div>
+                <div class="text-xs text-gray-400">@(DateTime.UtcNow.ToString("HH:mm:ss")) UTC</div>
             </div>
-            <div class="text-xs text-gray-400">@(DateTime.UtcNow.ToString("HH:mm:ss")) UTC</div>
         </div>
-    </div>
-}
+    }
 
     <!-- Main Content -->
     <main class="p-6 max-w-[1600px] mx-auto">
@@ -201,7 +204,7 @@
                 </table>
             </div>
 
-            
+
             <div class="flex items-center justify-between mt-6">
                 <div class="text-sm text-gray-500">Showing <span class="font-medium text-black">@total</span></div>
                 <div class="flex gap-2">

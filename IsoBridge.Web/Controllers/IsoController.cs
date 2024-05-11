@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using IsoBridge.Core.ISO;
 using IsoBridge.Core.Models;
@@ -35,20 +34,28 @@ namespace IsoBridge.Web.Controllers
                 };
 
                 var result = _parser.Parse(bytes);
-                await _audit.LogAsync("api-user", "parse", request.Payload, "ok", "{}");
+                var success = result.Success;
+
+                await _audit.LogAsync(
+                    "api-user",
+                    success ? "Parse" : "ParseError",
+                    request.Payload,
+                    success ? "Parsed OK" : result.Error ?? "Parse failed",
+                    "{}"
+                );
 
                 return Ok(new IsoResponse
                 {
                     Mti = result.Message?.Mti ?? "????",
                     Fields = result.Message?.Fields != null
-                                ? new Dictionary<int, string>(result.Message.Fields)
-                                : new Dictionary<int, string>(),
-                    Message = result.Success ? "Parsed successfully" : "Parse failed"
+                        ? new Dictionary<int, string>(result.Message.Fields)
+                        : new Dictionary<int, string>(),
+                    Message = success ? "Parsed successfully" : "Parse failed"
                 });
             }
             catch (Exception ex)
             {
-                await _audit.LogAsync("api-user", "parse", request.Payload, ex.Message, "{}");
+                await _audit.LogAsync("api-user", "ParseError", request.Payload, ex.Message, "{}");
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -62,25 +69,30 @@ namespace IsoBridge.Web.Controllers
                 var bytes = _parser.Build(message);
 
                 var hex = Convert.ToHexString(bytes);
-                var b64 = Convert.ToBase64String(bytes);
+                var base64 = Convert.ToBase64String(bytes);
 
-                await _audit.LogAsync("api-user", "build", request.Mti, "ok", "{}");
+                await _audit.LogAsync(
+                    "api-user",
+                    "Build",
+                    request.Mti,
+                    hex,
+                    "{}"
+                );
 
                 return Ok(new IsoResponse
                 {
                     Mti = request.Mti,
                     Fields = request.Fields,
                     Hex = hex,
-                    Base64 = b64,
+                    Base64 = base64,
                     Message = "Built successfully"
                 });
             }
             catch (Exception ex)
             {
-                await _audit.LogAsync("api-user", "build", request.Mti, ex.Message, "{}");
+                await _audit.LogAsync("api-user", "BuildError", request.Mti, ex.Message, "{}");
                 return BadRequest(new { error = ex.Message });
             }
         }
-
     }
 }

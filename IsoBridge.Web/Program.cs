@@ -28,33 +28,28 @@ builder.Services.AddScoped<AuditLoggingService>();
 var app = builder.Build();
 
 // Security hardening (basic for now, will update later)
-app.UseHsts();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 app.UseSerilogRequestLogging();
 
+// Swagger (dev only)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseStaticFiles();
-
-app.UseStaticFiles();
-
+// MVC controller routes
 app.MapControllerRoute(
-    name: "admin-audit",
-    pattern: "admin/audit/{action=Index}/{id?}",
-    defaults: new { controller = "AdminAudit" });
+    name: "admin",
+    pattern: "admin/{controller=AdminAudit}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseRouting();
-
 app.MapControllers();
-
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", utc = DateTime.UtcNow }));
 

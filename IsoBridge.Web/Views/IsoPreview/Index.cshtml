@@ -1,0 +1,100 @@
+@{
+    Layout = null;
+    ViewData["Title"] = "IsoBridge – ISO 8583 Preview Dashboard";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">I</div>
+                    <span class="text-lg font-semibold">IsoBridge</span>
+                </div>
+                <div class="flex gap-1">
+                    <a href="/" class="px-4 py-2 text-gray-500 hover:text-gray-900">Home</a>
+                    <a href="/swagger" class="px-4 py-2 text-gray-500 hover:text-gray-900">Swagger</a>
+                    <a href="/admin/audit" class="px-4 py-2 text-gray-500 hover:text-gray-900">Audit</a>
+                    <a href="/admin/iso-preview" class="px-4 py-2 bg-black text-white rounded-lg">ISO Preview</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/health" class="px-4 py-2 border rounded-lg">Health</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="p-6 max-w-[1600px] mx-auto">
+        <!-- Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-sm font-medium text-gray-600 mb-2">Total Builds</h3>
+                <div class="text-3xl font-bold text-gray-900" id="totalBuilds">0</div>
+                <p class="text-xs text-gray-400 mt-1">Successful build requests</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-sm font-medium text-gray-600 mb-2">Total Parses</h3>
+                <div class="text-3xl font-bold text-gray-900" id="totalParses">0</div>
+                <p class="text-xs text-gray-400 mt-1">Successful parse requests</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-sm font-medium text-gray-600 mb-2">Errors</h3>
+                <div class="text-3xl font-bold text-gray-900" id="totalErrors">0</div>
+                <p class="text-xs text-gray-400 mt-1">Failed operations logged</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-sm font-medium text-gray-600 mb-2">Last Operation</h3>
+                <div class="text-2xl font-bold text-gray-900" id="lastOperation">None</div>
+                <p class="text-xs text-gray-400 mt-1">Recent ISO activity</p>
+            </div>
+        </div>
+
+        <!-- Panels -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Build Message -->
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-lg font-semibold mb-4">Build ISO Message</h2>
+                <form id="buildForm" class="space-y-3">
+                    <input type="text" name="mti" placeholder="MTI (e.g. 0200)" class="border p-2 w-full rounded">
+                    <textarea name="fields" placeholder='Fields JSON (e.g. {"3":"000000","4":"1000"})'
+                        class="border p-2 w-full rounded h-32 font-mono text-sm"></textarea>
+                    <button type="submit" class="bg-black text-white px-4 py-2 rounded w-full">Build</button>
+                </form>
+
+                    <div id="buildResult" class="mt-4 hidden border rounded bg-gray-50 p-3 text-sm font-mono whitespace-pre break-all overflow-x-auto"></div>
+            </div>
+
+            <!-- Parse Message -->
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h2 class="text-lg font-semibold mb-4">Parse ISO Message</h2>
+                <form id="parseForm" class="space-y-3">
+                    <textarea name="payload" placeholder="ISO message payload (hex or base64)"
+                        class="border p-2 w-full rounded h-32 font-mono text-sm"></textarea>
+                    <select name="encoding" class="border p-2 w-full rounded">
+                        <option value="hex">Hex</option>
+                        <option value="base64">Base64</option>
+                    </select>
+                    <button type="submit" class="bg-black text-white px-4 py-2 rounded w-full">Parse</button>
+                </form>
+
+                <div id="parseResult" class="mt-4 hidden border rounded bg-gray-50 p-3 text-sm font-mono whitespace-pre"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/iso-preview.js"></script>
+</body>
+</html>
