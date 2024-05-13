@@ -15,11 +15,13 @@ namespace IsoBridge.Web.Controllers
     {
         private readonly IIsoParser _parser;
         private readonly AuditLoggingService _audit;
+        private readonly ForwardingService _forwarding;
 
-        public IsoController(IIsoParser parser, AuditLoggingService audit)
+        public IsoController(IIsoParser parser, AuditLoggingService audit, ForwardingService forwarding)
         {
             _parser = parser;
             _audit = audit;
+            _forwarding = forwarding;
         }
 
         [HttpPost("parse")]
@@ -92,6 +94,47 @@ namespace IsoBridge.Web.Controllers
             {
                 await _audit.LogAsync("api-user", "BuildError", request.Mti, ex.Message, "{}");
                 return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Parse/build an ISO message and forward it to a configured upstream (REST for now).
+        /// </summary>
+        [HttpPost("forward")]
+        [RequestSizeLimit(1024 * 256)] // 256 KB
+        public async Task<IActionResult> Forward([FromBody] ForwardIsoRequest request, CancellationToken ct)
+        {
+            var (isoBytes, mappedJson, ok, err) =
+                _forwarding.BuildIsoAndMapJson(request.Mode, request.Encoding, request.Payload, request.Mti, request.Fields);
+
+            if (!ok)
+            {
+                await _audit.LogAsync("api-user", "ForwardError", request.Payload ?? request.Mti ?? "N/A", err ?? "error", "{}");
+                return BadRequest(new { error = err });
+            }
+
+            try
+            {
+                var result = await _forwarding.ForwardAsync(request.RouteKey, isoBytes, mappedJson, ct);
+
+                var meta = new Dictionary<string, object?>
+                {
+                    ["routeKey"] = request.RouteKey,
+                    ["status"] = result.StatusCode
+                };
+                await _audit.LogAsync("api-user", "Forward", Convert.ToHexString(isoBytes), result.Body, System.Text.Json.JsonSerializer.Serialize(meta));
+
+                return StatusCode(result.StatusCode, new
+                {
+                    upstreamStatus = result.StatusCode,
+                    upstreamBody = result.Body,
+                    upstreamHeaders = result.Headers
+                });
+            }
+            catch (Exception ex)
+            {
+                await _audit.LogAsync("api-user", "ForwardError", Convert.ToHexString(isoBytes), ex.Message, "{}");
+                return StatusCode(502, new { error = "Upstream call failed", detail = ex.Message });
             }
         }
     }
