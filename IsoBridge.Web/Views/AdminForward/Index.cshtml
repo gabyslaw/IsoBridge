@@ -1,0 +1,132 @@
+@model List<string>
+@{
+    ViewData["Title"] = "Forward ISO Message";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Forward ISO Message</h2>
+    <p class="text-muted">Use this tool to send ISO messages to a configured upstream (REST/SOAP).</p>
+
+    <div class="card p-4 shadow-sm">
+        <form id="forwardForm">
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Route Key</label>
+                <select id="routeKey" class="form-select">
+                    @foreach (var route in Model)
+                    {
+                        <option value="@route">@route</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Mode</label>
+                <select id="mode" class="form-select">
+                    <option value="json">JSON (MTI + fields)</option>
+                    <option value="iso">ISO Raw Payload</option>
+                </select>
+            </div>
+
+            <div id="jsonFields">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">MTI</label>
+                    <input id="mti" class="form-control" value="0200" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Fields (JSON format)</label>
+                    <textarea id="fields" class="form-control" rows="4">
+{
+  "3": "000000",
+  "4": "000000010000",
+  "11": "123456",
+  "41": "TERM001",
+  "49": "840"
+}
+                    </textarea>
+                </div>
+            </div>
+
+            <div id="isoPayload" class="d-none">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">ISO Payload</label>
+                    <textarea id="payload" class="form-control" rows="4" placeholder="Hex or Base64 message"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Encoding</label>
+                    <select id="encoding" class="form-select">
+                        <option value="hex">hex</option>
+                        <option value="base64">base64</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Send & Forward</button>
+        </form>
+
+        <div id="result" class="mt-4 d-none">
+            <h5 class="fw-semibold">Response</h5>
+            <pre id="resultContent" class="bg-light border rounded p-3" style="max-height: 400px; overflow:auto;"></pre>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modeSelect = document.getElementById("mode");
+            const jsonFields = document.getElementById("jsonFields");
+            const isoPayload = document.getElementById("isoPayload");
+
+            modeSelect.addEventListener("change", () => {
+                if (modeSelect.value === "json") {
+                    jsonFields.classList.remove("d-none");
+                    isoPayload.classList.add("d-none");
+                } else {
+                    jsonFields.classList.add("d-none");
+                    isoPayload.classList.remove("d-none");
+                }
+            });
+
+            const form = document.getElementById("forwardForm");
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const routeKey = document.getElementById("routeKey").value;
+                const mode = document.getElementById("mode").value;
+                const resultBox = document.getElementById("result");
+                const resultContent = document.getElementById("resultContent");
+                resultBox.classList.add("d-none");
+
+                let body;
+                if (mode === "json") {
+                    body = {
+                        routeKey,
+                        mode: "json",
+                        mti: document.getElementById("mti").value,
+                        fields: JSON.parse(document.getElementById("fields").value)
+                    };
+                } else {
+                    body = {
+                        routeKey,
+                        mode: "iso",
+                        payload: document.getElementById("payload").value,
+                        encoding: document.getElementById("encoding").value
+                    };
+                }
+
+                try {
+                    const response = await fetch("/api/iso/forward", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(body)
+                    });
+                    const data = await response.json();
+                    resultContent.textContent = JSON.stringify(data, null, 2);
+                    resultBox.classList.remove("d-none");
+                } catch (err) {
+                    resultContent.textContent = "Error: " + err;
+                    resultBox.classList.remove("d-none");
+                }
+            });
+        });
+    </script>
+}
