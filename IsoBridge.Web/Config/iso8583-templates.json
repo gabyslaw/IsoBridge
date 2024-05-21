@@ -93,5 +93,125 @@
                 "description": "Currency Code, Transaction"
             }
         }
+    },
+   "0100": {
+    "mti": "0100",
+    "fields": {
+        "2": {
+            "length": 19,
+            "type": "n",
+            "description": "Primary Account Number"
+        },
+        "3": {
+            "length": 6,
+            "type": "n",
+            "description": "Processing Code"
+        },
+        "4": {
+            "length": 12,
+            "type": "n",
+            "description": "Amount, Transaction"
+        },
+        "7": {
+            "length": 10,
+            "type": "n",
+            "description": "Transmission Date and Time"
+        },
+        "11": {
+            "length": 6,
+            "type": "n",
+            "description": "System Trace Audit Number"
+        },
+        "12": {
+            "length": 6,
+            "type": "n",
+            "description": "Local Transaction Time"
+        },
+        "13": {
+            "length": 4,
+            "type": "n",
+            "description": "Local Transaction Date"
+        },
+        "37": {
+            "length": 12,
+            "type": "ans",
+            "description": "Retrieval Reference Number"
+        },
+        "41": {
+            "length": 8,
+            "type": "ans",
+            "description": "Card Acceptor Terminal ID"
+        },
+        "49": {
+            "length": 3,
+            "type": "a",
+            "description": "Currency Code, Transaction"
+        }
+    }
+},
+    "0110": {
+        "mti": "0110",
+        "fields": {
+            "2": {
+                "length": 19,
+                "type": "n",
+                "description": "Primary Account Number"
+            },
+            "3": {
+                "length": 6,
+                "type": "n",
+                "description": "Processing Code"
+            },
+            "4": {
+                "length": 12,
+                "type": "n",
+                "description": "Amount, Transaction"
+            },
+            "7": {
+                "length": 10,
+                "type": "n",
+                "description": "Transmission Date and Time"
+            },
+            "11": {
+                "length": 6,
+                "type": "n",
+                "description": "System Trace Audit Number"
+            },
+            "12": {
+                "length": 6,
+                "type": "n",
+                "description": "Local Transaction Time"
+            },
+            "13": {
+                "length": 4,
+                "type": "n",
+                "description": "Local Transaction Date"
+            },
+            "37": {
+                "length": 12,
+                "type": "ans",
+                "description": "Retrieval Reference Number"
+            },
+            "38": {
+                "length": 6,
+                "type": "ans",
+                "description": "Authorization ID Response"
+            },
+            "39": {
+                "length": 2,
+                "type": "n",
+                "description": "Response Code"
+            },
+            "41": {
+                "length": 8,
+                "type": "ans",
+                "description": "Card Acceptor Terminal ID"
+            },
+            "49": {
+                "length": 3,
+                "type": "a",
+                "description": "Currency Code, Transaction"
+            }
+        }
     }
 }

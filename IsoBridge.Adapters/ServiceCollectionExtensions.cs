@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using IsoBridge.Adapters.Forwarding;
+using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IsoBridge.Adapters.Forwarding;
 using Polly;
 using Polly.Extensions.Http;
 
@@ -17,11 +15,15 @@ namespace IsoBridge.Adapters
         {
             services.Configure<ForwardingOptions>(config.GetSection("Forwarding"));
 
-            // HttpClient for forwarder with Polly retry/backoff
+            // Named HttpClient with Polly retry/backoff
             services.AddHttpClient("IsoBridge.Forwarder")
                 .AddPolicyHandler(CreateRetryPolicy());
 
-            services.AddSingleton<IForwarder, RestForwarder>();
+            // register concrete forwarders + router
+            services.AddSingleton<RestForwarder>();
+            services.AddSingleton<SoapForwarder>();
+            services.AddSingleton<IForwarder, ForwarderRouter>();
+
             return services;
         }
 
