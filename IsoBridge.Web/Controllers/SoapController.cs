@@ -21,8 +21,10 @@ namespace IsoBridge.Web.Controllers
     public class SoapController : ControllerBase
     {
         [HttpPost("paymentauth")]
-        public IActionResult PaymentAuth([FromBody] string xmlBody)
+        public async Task<IActionResult> PaymentAuth()
         {
+            using var reader = new StreamReader(Request.Body, Encoding.UTF8);
+            var xmlBody = await reader.ReadToEndAsync();
             try
             {
                 // parse SOAP Body -> PaymentAuthRequest
