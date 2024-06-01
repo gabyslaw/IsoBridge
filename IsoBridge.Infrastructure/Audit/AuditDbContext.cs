@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IsoBridge.Core.Audit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IsoBridge.Infrastructure.Audit
 {
@@ -22,5 +23,13 @@ namespace IsoBridge.Infrastructure.Audit
                 entity.Property(e => e.HmacSignature).IsRequired();
             });
         }
+
+        public static void EnsureCreated(IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AuditDbContext>();
+            db.Database.EnsureCreated();
+        }
+
     }
 }

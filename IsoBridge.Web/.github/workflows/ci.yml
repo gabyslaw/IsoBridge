@@ -1,0 +1,25 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore
+        run: dotnet restore IsoBridge.sln
+      - name: Build
+        run: dotnet build IsoBridge.sln --configuration Release --no-restore
+      - name: Test
+        run: dotnet test IsoBridge.Tests/IsoBridge.Tests.csproj --no-build --verbosity normal
+      - name: Publish
+        if: github.ref == 'refs/heads/main'
+        run: dotnet publish IsoBridge.Web/IsoBridge.Web.csproj -c Release -o ./out

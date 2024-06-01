@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using IsoBridge.Adapters.Forwarding;
 using IsoBridge.Core.ISO;
 using IsoBridge.Core.Models;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace IsoBridge.Web.Services
 {
@@ -13,15 +15,27 @@ namespace IsoBridge.Web.Services
     {
         private readonly IIsoParser _parser;
         private readonly IForwarder _forwarder;
+        private readonly IWebHostEnvironment _env;
+        private readonly ILogger<ForwardingService> _logger;
 
-        public ForwardingService(IIsoParser parser, IForwarder forwarder)
+        public ForwardingService(
+            IIsoParser parser,
+            IForwarder forwarder,
+            IWebHostEnvironment env,
+            ILogger<ForwardingService> logger)
         {
             _parser = parser;
             _forwarder = forwarder;
+            _env = env;
+            _logger = logger;
         }
 
         public (byte[] isoBytes, JsonObject json, bool success, string? error) BuildIsoAndMapJson(
-            string mode, string encoding, string? payload, string? mti, Dictionary<int, string>? fields)
+            string mode,
+            string encoding,
+            string? payload,
+            string? mti,
+            Dictionary<int, string>? fields)
         {
             try
             {
@@ -50,6 +64,7 @@ namespace IsoBridge.Web.Services
                     var parsed = _parser.Parse(isoBytes);
                     if (!parsed.Success || parsed.Message is null)
                         return (Array.Empty<byte>(), new JsonObject(), false, parsed.Error ?? "Parse failed.");
+
                     isoMsg = parsed.Message;
                 }
 
@@ -63,7 +78,6 @@ namespace IsoBridge.Web.Services
                     ["fields"] = fieldJson
                 };
 
-
                 return (isoBytes, json, true, null);
             }
             catch (Exception ex)
@@ -73,6 +87,29 @@ namespace IsoBridge.Web.Services
         }
 
         public Task<ForwardResult> ForwardAsync(string routeKey, byte[] isoBytes, JsonObject mappedJson, CancellationToken ct = default)
-            => _forwarder.ForwardAsync(routeKey, isoBytes, mappedJson, ct);
+        {
+            if (_env.IsEnvironment("Testing"))
+            {
+                _logger.LogInformation("Forwarding stubbed in Testing environment for route {RouteKey}.", routeKey);
+
+                var jsonBody = new JsonObject
+                {
+                    ["status"] = "stubbed",
+                    ["message"] = "Forwarded (test environment stub)",
+                    ["route"] = routeKey,
+                    ["timestamp"] = DateTime.UtcNow.ToString("O")
+                };
+
+                var stub = new ForwardResult(
+                    200, // statusCode
+                    jsonBody.ToJsonString(), // body as string
+                    new Dictionary<string, IEnumerable<string>>() // empty headers
+                );
+
+                return Task.FromResult(stub);
+            }
+
+            return _forwarder.ForwardAsync(routeKey, isoBytes, mappedJson, ct);
+        }
     }
 }

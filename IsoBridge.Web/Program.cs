@@ -31,6 +31,8 @@ builder.Services.AddScoped<ForwardingService>();
 
 var app = builder.Build();
 
+IsoBridge.Infrastructure.Audit.AuditDbContext.EnsureCreated(app.Services);
+
 // Security hardening (basic for now, will update later)
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -58,3 +60,5 @@ app.MapControllers();
 app.MapGet("/health", () => Results.Ok(new { status = "ok", utc = DateTime.UtcNow }));
 
 app.Run();
+
+public partial class Program { }

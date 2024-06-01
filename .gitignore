@@ -1,6 +1,8 @@
 ## .NET & Visual Studio
 bin/
 obj/
+**/bin/
+**/obj/
 .vs/
 *.user
 *.suo

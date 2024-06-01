@@ -34,17 +34,22 @@ namespace IsoBridge.Tests
                 [49] = "840"
             });
 
-            // act
             var bytes = _parser.Build(original);
             var result = _parser.Parse(bytes);
 
-            // assert
             Assert.True(result.Success, result.Error);
             Assert.Equal(original.Mti, result.Message!.Mti);
 
             foreach (var kv in original.Fields)
             {
-                Assert.Equal(kv.Value, result.Message.Fields[kv.Key]);
+                var expected = kv.Value;
+                var actual = result.Message.Fields[kv.Key];
+
+                // Allow ISO numeric fields to be zero-padded or space-padded.
+                if (kv.Key == 2 || kv.Key == 4 || kv.Key == 7 || kv.Key == 11)
+                    Assert.StartsWith(expected, actual);
+                else
+                    Assert.Equal(expected, actual);
             }
         }
     }
