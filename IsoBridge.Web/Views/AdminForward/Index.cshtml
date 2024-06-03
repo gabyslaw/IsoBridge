@@ -3,38 +3,71 @@
     ViewData["Title"] = "Forward ISO Message";
 }
 
-<div class="container mt-4">
-    <h2 class="mb-3">Forward ISO Message</h2>
-    <p class="text-muted">Use this tool to send ISO messages to a configured upstream (REST/SOAP).</p>
 
-    <div class="card p-4 shadow-sm">
-        <form id="forwardForm">
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Route Key</label>
-                <select id="routeKey" class="form-select">
-                    @foreach (var route in Model)
-                    {
-                        <option value="@route">@route</option>
-                    }
-                </select>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Mode</label>
-                <select id="mode" class="form-select">
-                    <option value="json">JSON (MTI + fields)</option>
-                    <option value="iso">ISO Raw Payload</option>
-                </select>
-            </div>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+</head>
 
-            <div id="jsonFields">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">MTI</label>
-                    <input id="mti" class="form-control" value="0200" />
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">I
+                    </div>
+                    <span class="text-lg font-semibold">IsoBridge</span>
                 </div>
+                <div class="flex gap-1">
+                    <a href="/" class="px-4 py-2 text-gray-500 hover:text-gray-900">Home</a>
+                    <a href="/swagger" class="px-4 py-2 text-gray-500 hover:text-gray-900">Swagger</a>
+                    <a href="/admin/audit" class="px-4 py-2 text-gray-500 hover:text-gray-900">Audit</a>
+                    <a href="/admin/iso-preview" class="px-4 py-2 text-gray-500 hover:text-gray-900">ISO Preview</a>
+                    <a href="/admin/forward" class="px-4 py-2 bg-black text-white rounded-lg">Forwarder</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/health" class="px-4 py-2 border rounded-lg">Health</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="mb-3">Forward ISO Message</h2>
+        <p class="text-muted">Use this tool to send ISO messages to a configured upstream (REST/SOAP).</p>
+
+        <div class="card p-4 shadow-sm">
+            <form id="forwardForm">
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Fields (JSON format)</label>
-                    <textarea id="fields" class="form-control" rows="4">
+                    <label class="form-label fw-semibold">Route Key</label>
+                    <select id="routeKey" class="form-select">
+                        @foreach (var route in Model)
+                        {
+                            <option value="@route">@route</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Mode</label>
+                    <select id="mode" class="form-select">
+                        <option value="json">JSON (MTI + fields)</option>
+                        <option value="iso">ISO Raw Payload</option>
+                    </select>
+                </div>
+
+                <div id="jsonFields">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">MTI</label>
+                        <input id="mti" class="form-control" value="0200" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Fields (JSON format)</label>
+                        <textarea id="fields" class="form-control" rows="4">
 {
   "3": "000000",
   "4": "000000010000",
@@ -43,33 +76,35 @@
   "49": "840"
 }
                     </textarea>
+                    </div>
                 </div>
+
+                <div id="isoPayload" class="d-none">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">ISO Payload</label>
+                        <textarea id="payload" class="form-control" rows="4"
+                            placeholder="Hex or Base64 message"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Encoding</label>
+                        <select id="encoding" class="form-select">
+                            <option value="hex">hex</option>
+                            <option value="base64">base64</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">Send & Forward</button>
+            </form>
+
+            <div id="result" class="mt-4 d-none">
+                <h5 class="fw-semibold">Response</h5>
+                <pre id="resultContent" class="bg-light border rounded p-3"
+                    style="max-height: 400px; overflow:auto;"></pre>
             </div>
-
-            <div id="isoPayload" class="d-none">
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">ISO Payload</label>
-                    <textarea id="payload" class="form-control" rows="4" placeholder="Hex or Base64 message"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Encoding</label>
-                    <select id="encoding" class="form-select">
-                        <option value="hex">hex</option>
-                        <option value="base64">base64</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary mt-2">Send & Forward</button>
-        </form>
-
-        <div id="result" class="mt-4 d-none">
-            <h5 class="fw-semibold">Response</h5>
-            <pre id="resultContent" class="bg-light border rounded p-3" style="max-height: 400px; overflow:auto;"></pre>
         </div>
     </div>
-</div>
-
+</body>
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", () => {
