@@ -1,4 +1,4 @@
-# IsoBridge
+# IsoBridge [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > **Bridging legacy financial switches with modern systems — transparently, audibly, and for free.**
 
