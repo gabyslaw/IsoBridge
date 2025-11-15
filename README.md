@@ -22,6 +22,14 @@ I’m not maintaining it further.
 Please **don’t open issues or PRs** — just ⭐ the repo if you find it useful.  
 You’re free to use, modify, and extend it for your own projects — it’s 100% **MIT licensed**.
 
+## Why I Built IsoBridge
+
+When I first started working on ISO 8583 integrations, I realised that most teams struggled not because ISO is difficult, but because the existing tools were incomplete, undocumented, or locked behind proprietary systems. Every new bank or POS vendor had its own dialect of ISO, and junior engineers had no clean way to experiment safely.
+
+I rebuilt the architecture from first principles in 2024 and published it openly in 2025 after several fintech teams asked for guidance. Instead of writing long WhatsApp explanations every time, I decided to make the entire pattern public, deterministic parsing, audibility-first logging, and simple forwarding.
+
+IsoBridge exists so engineers can finally understand ISO 8583 without guessing.
+
 ---
 
 ## 🧩 Architecture Overview
@@ -39,6 +47,101 @@ IsoBridge follows a modular, layered architecture for clarity and testability.
 
 ---
 
+## High-Level Architecture (Mermaid)
+
+```mermaid
+graph TD
+
+%% ===================== TOP LAYER =====================
+subgraph UI["UI Layer"]
+    direction LR
+    UI1[ISO Preview UI]
+    UI2[Admin Audit UI]
+    Swagger[Swagger UI]
+end
+
+%% UI → Web
+UI1 --> API_Iso
+UI2 --> API_Admin
+Swagger --> API_Iso
+
+%% ===================== WEB/API LAYER =====================
+subgraph Web["IsoBridge.Web (ASP.NET Core)"]
+    direction TB
+
+    API_Iso["IsoController <br> (Parse • Build • Forward)"]
+    API_Admin["AdminAuditController <br> (View • Verify • Export)"]
+    Services[Service Registration & Routing]
+end
+
+API_Iso --> FW_Svc
+API_Iso --> Parser
+API_Iso --> AuditSvc
+
+API_Admin --> AuditRepo
+
+%% ===================== CORE DOMAIN =====================
+subgraph Core["IsoBridge.Core"]
+    direction TB
+    Parser[IIsoParser]
+    IsoMsg[IsoMessage • ParseResult]
+    AuditSvc[AuditLoggingService]
+    Contracts["Audit Interfaces <br> IAuditStore • IAuditHasher"]
+end
+
+AuditSvc --> Contracts
+
+%% ===================== ISO8583 ENGINE =====================
+subgraph ISO["IsoBridge.ISO8583"]
+    direction TB
+    ParserImpl[DefaultIsoParser]
+    Templates[TemplateLoader]
+    Codec[Field Codec]
+    Bitmap[Bitmap Utils]
+    Config[iso8583-templates.json]
+end
+
+Parser -.implements.-> ParserImpl
+ParserImpl --> Templates --> Config
+ParserImpl --> Codec
+ParserImpl --> Bitmap
+
+%% ===================== INFRASTRUCTURE =====================
+subgraph Infra["IsoBridge.Infrastructure (Audit)"]
+    direction TB
+    AuditRepo[AuditRepository]
+    Hash[SHA256 Hasher]
+    DB[(audit.db • SQLite)]
+end
+
+AuditRepo --> DB
+Hash --> Contracts
+
+%% ===================== FORWARDING ADAPTERS =====================
+subgraph Fwd["IsoBridge.Adapters"]
+    direction TB
+    FW_Svc[ForwardingService]
+    FwdInt[IForwarder]
+    RestFwd[RestForwarder]
+    SoapFwd[SoapForwarder]
+end
+
+FW_Svc --> FwdInt
+FwdInt -.REST.-> RestFwd
+FwdInt -.SOAP.-> SoapFwd
+
+%% ===================== EXTERNAL SYSTEMS =====================
+subgraph Ext["External Upstream Hosts"]
+    direction LR
+    Up1[REST Payment Host]
+    Up2[SOAP Switch Host]
+end
+
+RestFwd --> Up1
+SoapFwd --> Up2
+
+```
+
 ## 🧠 System Flow
 
 1. A user or external service calls one of the API endpoints (`/api/iso/parse`, `/api/iso/build`, or `/api/iso/forward`).
@@ -48,7 +151,8 @@ IsoBridge follows a modular, layered architecture for clarity and testability.
 5. Optionally, the **Adapters** layer forwards the built ISO message to an upstream host.
 6. The **Admin UI** and Swagger allow live testing and message inspection.
 
----
+```
+
 
 ## 💻 How to Run IsoBridge
 
@@ -298,6 +402,41 @@ sqlite3 audit.db "select TimestampUtc, Service, Actor, substr(Hash,1,12) as Hash
 
 ---
 
+## 🌐 Real Usage in the Ecosystem
+
+IsoBridge has been used by engineers in multiple African fintech organisations for:
+
+- prototyping ISO-to-API bridges before going live
+
+- connecting POS terminals in rural, low-connectivity regions
+
+- validating ISO8583 traffic from agents and merchant terminals
+
+- teaching junior engineers how field templates and bitmap rules work
+
+- building internal tools for offline-first POS routing
+
+
+---
+
+## ⚠️ What IsoBridge Is Not
+
+To avoid misconceptions:
+
+- It is not a full banking switch.
+
+- It is not a replacement for PCI-DSS–certified transaction processors.
+
+- It is not a drop-in production alternative to commercial gateways.
+
+- It is provided for education, prototyping, and internal experimentation.
+
+- No support or ongoing feature development is planned.
+
+These boundaries protect the project’s purpose and help new developers set realistic expectations.
+
+---
+
 ## ❓ FAQ
 
 **Q: Why is this project free?**  
@@ -329,10 +468,10 @@ A: Yes. Set `UseBcd = true` in `Iso8583Options`.
 ## ❤️ Final Note
 
 IsoBridge represents a journey, from confusion to clarity.  
-I built it so no other engineer would have to waste weeks trying to understand how ISO 8583 works behind the scenes.
+I built built the core functionality, documented the architecture, and published it for the community so no other engineer would have to waste weeks trying to understand how ISO 8583 works behind the scenes, but I do not plan to extend it further.
 
 If this project helped you:
-- Give it a ⭐ on GitHub.  
+- Give it a ⭐ on GitHub so others can discover it.  
 - Learn from it.  
 - Fork it for your private use.  
 
